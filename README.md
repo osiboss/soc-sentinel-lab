@@ -100,3 +100,37 @@ The results show repeated privileged events for `NT AUTHORITY\SYSTEM` on `VM-Sen
 A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4672 special privilege events.
 
 ![Windows Event ID 4672 results](4672.jpeg)
+## Investigation 4: Windows Event ID 4662 - Directory Service Access
+
+### Findings
+
+Event ID 4662 represents an operation performed on an object.
+
+The query was used to identify Windows Event ID 4662 activity and review the associated account, computer, activity, object name, and subject user.
+
+The results show multiple Event ID 4662 events on the `VM-Sentinel1-wi` computer. The account shown is `WORKGROUP\VM-Sentinel1-wi$`.
+
+The observed activity occurred around 04:01 AM on 27/08/2026, and the ObjectName values shown begin with `root\CIM`.
+
+The presence of Event ID 4662 events does not by itself confirm malicious activity. The account, object accessed, activity, timing, and surrounding events should be reviewed to determine whether the activity was expected.
+
+### Field Analysis
+
+- **TimeGenerated** - Time when the event was recorded.
+- **Account** - Account associated with the event.
+- **Computer** - Computer where the activity occurred.
+- **Activity** - Description of the operation performed.
+- **ObjectName** - Object associated with the operation.
+- **SubjectUserName** - User associated with the activity.
+
+### Investigation Notes
+
+The query filters Windows Event ID 4662 and displays the main fields needed to investigate object access activity.
+
+The results show repeated events associated with the machine account `WORKGROUP\VM-Sentinel1-wi$` on `VM-Sentinel1-wi`. Further investigation would be required to determine the purpose and context of the `root\CIM` object activity.
+
+### Evidence
+
+A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4662 activity.
+
+![Windows Event ID 4662 results](4662.jpeg)
