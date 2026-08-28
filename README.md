@@ -67,3 +67,36 @@ The presence of cmd.exe or rundll32.exe does not by itself confirm malicious act
 A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4688 process creation events.
 
 ![Windows Event ID 4688 results](4688.jpeg)
+## Investigation 3: Windows Event ID 4672 - Special Privileges
+
+### Findings
+
+Event ID 4672 represents a Windows security event where special privileges are assigned to a new logon.
+
+The query was used to identify accounts receiving special privileges on the monitored Windows computer.
+
+The results show multiple Event ID 4672 events associated with the `NT AUTHORITY\SYSTEM` account on the `VM-Sentinel1-wi` computer.
+
+The account type is shown as `Machine`, and the observed privilege list includes `SeAssignPrimaryTokenPrivilege`.
+
+The observed activity is associated with the SYSTEM account and does not by itself confirm malicious activity. The account, privileges, timing, and surrounding events should be reviewed when determining whether the activity is expected.
+
+### Field Analysis
+
+- **TimeGenerated** - Time when the Event ID 4672 event was recorded.
+- **Account** - Account associated with the privileged logon.
+- **AccountType** - Type of account associated with the event.
+- **Computer** - Computer where the event occurred.
+- **PrivilegeList** - Special privileges assigned during the logon.
+
+### Investigation Notes
+
+The query filters Windows Event ID 4672 and displays the account, account type, computer, and privilege information.
+
+The results show repeated privileged events for `NT AUTHORITY\SYSTEM` on `VM-Sentinel1-wi`. The presence of a privileged event alone does not establish malicious activity and should be assessed in context.
+
+### Evidence
+
+A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4672 special privilege events.
+
+![Windows Event ID 4672 results](4672.jpeg)
