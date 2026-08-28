@@ -134,3 +134,94 @@ The results show repeated events associated with the machine account `WORKGROUP\
 A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4662 activity.
 
 ![Windows Event ID 4662 results](4662.jpeg)
+
+## Investigation Conclusion
+
+Windows Event ID 4662 records an operation was performed on an object in Active Directory.
+
+The queried events were associated with the machine account `WORKGROUP\VM-Sentinel1-wi$` on `VM-Sentinel1-wi`.
+
+The repeated 4662 events indicate object access activity, but Event ID 4662 alone does not establish that the activity was malicious. Further investigation would be required to identify the specific object accessed, the access rights used, and the process or activity that generated the events.
+
+### Recommended Next Steps
+
+- Review the full Event ID 4662 details, especially `ObjectName`, `ObjectType`, and `AccessMask`.
+- Correlate the events with other Windows Security events such as 4624 (successful logon) and 4688 (process creation).
+- Check whether the activity occurred during a known administrative or system task.
+- Investigate the machine account and determine why it generated repeated object-access events.
+- Document whether the activity is confirmed benign, suspicious, or requires further investigation.
+
+### Analyst Assessment
+
+At this stage, the activity should be treated as **requiring further investigation rather than confirmed malicious activity**. The available evidence demonstrates repeated object-access events, but additional event correlation and context are needed to determine intent.
+
+## Skills Demonstrated
+
+- Microsoft Sentinel
+- Kusto Query Language (KQL)
+- Windows Security Event Log analysis
+- Active Directory object-access investigation
+- Event ID 4662 analysis
+- SIEM investigation and evidence documentation
+- Security event correlation
+- Basic incident investigation methodology
+- ## Detection & Investigation Summary
+
+This investigation used Microsoft Sentinel and Kusto Query Language (KQL) to identify and review repeated Windows Security Event ID 4662 activity.
+
+The investigation focused on:
+
+- Identifying repeated Event ID 4662 events within the selected time range.
+- Reviewing the account and computer associated with the activity.
+- Examining fields including `ObjectName`, `ObjectType`, `AccessMask`, and `SubjectUserName`.
+- Assessing whether the activity represented expected administrative or system behaviour.
+- Recognising that repeated object-access events require additional context before being classified as malicious.
+- Documenting recommended follow-up actions and evidence requirements.
+
+### Detection Logic
+
+The investigation used the following KQL query:
+
+```kql
+SecurityEvent
+| where TimeGenerated >= ago(24h)
+| where EventID == 4662
+| project TimeGenerated, Account, Computer, Activity, ObjectName, SubjectUserName
+| order by TimeGenerated desc
+
+## MITRE ATT&CK Mapping
+
+The investigation was reviewed against the MITRE ATT&CK framework to access potentially relevant techniques. The available evidence did not confirm any specific malicious ATT&CK technique...
+
+- **T1070 - Indicator Removal:** ...
+- **T1003 - OS Credential Dumping:** ...
+- **T1087 - Account Discovery:** ...
+
+The available telemetry was insufficient...
+
+
+## Final SOC Analyst Assessment
+
+The investigation identified repeated Windows Event ID 4662 activity associated with the machine account `WORKGROUP\VM-Sentinel1-wi` on `VM-Sentinel1-wi`.
+
+The activity confirms repeated object-access events, but the available evidence does not establish malicious intent.
+
+Based on the current evidence, the appropriate classification is:
+
+**Status: Requires Further Investigation**
+
+Recommended investigation priorities include reviewing the complete Event ID 4662 fields, identifying the specific Active Directory objects accessed, analysing the AccessMask and ObjectType values, and correlating the activity with related Windows Security events such as Event ID 4624 and Event ID 4688.
+
+This investigation demonstrates a structured SOC workflow of detection, event analysis, correlation, evidence review, and cautious classification.
+
+This lab demonstrates a practical SOC investigation workflow:
+
+1. Identify relevant security events.
+2. Build a focused KQL query.
+3. Extract useful investigation fields.
+4. Review repeated activity for patterns.
+5. Correlate events with additional Windows security telemetry.
+6. Assess the available evidence.
+7. Document findings and recommended next steps.
+
+The investigation highlights the importance of **context and event correlation** when analysing Windows security events. A single event should not automatically be treated as malicious without supporting evidence.
