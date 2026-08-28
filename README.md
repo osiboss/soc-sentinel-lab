@@ -27,3 +27,9 @@ The lab focuses on security monitoring, Windows Security Events, KQL (Kusto Quer
 This repository will contain KQL queries, investigation notes, and supporting screenshots from my SOC lab.
 
 More investigations will be added as I progress.
+
+### Evidence
+
+A screenshot of the Microsoft Sentinel query results showing Windows Event ID 4624 successful logon events.
+
+![Windows Event ID 4624 results](4624.jpeg)
